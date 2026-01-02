@@ -29,6 +29,18 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.only(top: 20),
             child: HabitHeatMap(),
           ),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 30, left: 40),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Habits',
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                )),
+            ),
+          ),
         ],
       ),
     );

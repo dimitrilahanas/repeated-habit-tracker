@@ -20,10 +20,6 @@ class _HabitHeatMapState extends State<HabitHeatMap> {
         showColorTip: true,
         datasets: {
           DateTime(2026, 1, 1): 20,
-          // DateTime(2021, 1, 7): 7,
-          DateTime(2021, 1, 8): 10,
-          DateTime(2021, 1, 9): 13,
-          DateTime(2021, 1, 13): 6,
         },
 
         onClick: (DateTime value) {

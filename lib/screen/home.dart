@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:repeated_habit_tracker/data/habit_database.dart';
 import 'package:repeated_habit_tracker/util/constants.dart';
 import 'package:repeated_habit_tracker/widget/habit_creator.dart';
 
@@ -16,11 +18,27 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Habit> habitData = [];
+  HabitDatabase db = HabitDatabase();
+  final _myBox = Hive.box("Habit_Database");
+
+  @override
+  void initState() {
+    if (_myBox.get("CURRENT_HABIT_LIST") == null) {
+      db.createDefaultData();
+    }
+
+    else {
+      db.loadData();
+    }
+
+    db.updateDatabase();
+
+    super.initState();
+  }
 
   void checkboxChange(bool? value, int index) {
     setState(() {
-      habitData[index].isChecked = !habitData[index].isChecked;
+      db.todaysHabitList[index].isChecked = value!;
     });
   }
 
@@ -37,7 +55,7 @@ class _HomeState extends State<Home> {
 
   void saveTask() {
     setState(() {
-      habitData.add(Habit(textController.text, false));
+      db.todaysHabitList.add(Habit(textController.text, false));
       textController.clear();
     });
   }
@@ -75,11 +93,11 @@ class _HomeState extends State<Home> {
 
           Expanded(
             child: ListView.builder(
-              itemCount: habitData.length,
+              itemCount: db.todaysHabitList.length,
               itemBuilder: (context, index) {
                 return HabitTile(
-                  habitName: habitData[index].name,
-                  isChecked: habitData[index].isChecked, 
+                  habitName: db.todaysHabitList[index].name,
+                  isChecked: db.todaysHabitList[index].isChecked, 
                   onChanged: (value) => checkboxChange(value, index),
                 );
               },

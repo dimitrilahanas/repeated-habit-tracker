@@ -30,13 +30,15 @@ class _HomeState extends State<Home> {
     showDialog(context: context, builder: (context) {
       return HabitCreator(
         saveTap: saveTask,
-        controller: textController);
+        controller: textController,
+      );
     });
   }
 
   void saveTask() {
     setState(() {
       habitData.add(Habit(textController.text, false));
+      textController.clear();
     });
   }
 

@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:repeated_habit_tracker/model/habit.dart';
 
-final _myBox = Hive.box("Habit_database");
+final _myBox = Hive.box("Habit_Database");
 
 class HabitDatabase {
   List<Habit> todaysHabitList = [];

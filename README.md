@@ -1,16 +1,20 @@
-# repeated_habit_tracker
+# Flutter-Task-List
+⚠️ **Note:** This project is for **learning purposes**.  
+I created it while learning Flutter, so the code may be messy or not follow best practices.  
+Use it as a reference for my learning journey, not as production-ready code.
 
-A new Flutter project.
+## Overview
+A simple Flutter Habit Tracking app with heatmap focused on saving to Hive database and using state.
 
-## Getting Started
+## Features
+- Add Habits
+- Delete Habits
+- Check Habits when completed
+- Store Habits in Hive database
+- Heatmap to see habits completed each day
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## What it Looks Like
+<p align="center">
+  <img src="1.png" alt="Main Page" width="250"/>
+  <img src="2.png" alt="Add Habit" width="250"/>
+</p>

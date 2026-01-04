@@ -4,6 +4,7 @@ import 'package:repeated_habit_tracker/util/constants.dart';
 import 'package:repeated_habit_tracker/widget/habit_creator.dart';
 
 import 'package:repeated_habit_tracker/model/habit.dart';
+import 'package:repeated_habit_tracker/widget/username_creator.dart';
 
 import 'package:repeated_habit_tracker/widget/welcome_back_messsage.dart';
 import 'package:repeated_habit_tracker/widget/habit_heat_map.dart';
@@ -18,13 +19,43 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   HabitDatabase db = HabitDatabase();
+  String? _userName;
 
   @override
   void initState() {
     super.initState();
 
+    _userName = db.getUserName();
+
+    if (_userName == null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showUsernameDialog();
+    });
+  }
+
     db.loadData();
     db.loadHeatMap();
+  }
+
+  final textController = TextEditingController();
+
+  void _showUsernameDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return UsernameCreator(
+          saveTap: () {
+            setState(() {
+              _userName = textController.text;
+              db.saveUserName(_userName!);
+            });
+            Navigator.of(context).pop();
+          },
+          controller: textController,
+        );
+      },
+    );
   }
 
   void checkboxChange(bool? value, int index) {
@@ -36,7 +67,15 @@ class _HomeState extends State<Home> {
     db.updateDatabase();
   }
 
-  final textController = TextEditingController();
+  void saveHabit() {
+    setState(() {
+      db.todaysHabitList.add(Habit(textController.text, false));
+      textController.clear();
+      db.calculateCompleted();
+    });
+
+    db.updateDatabase();
+  }
 
   void addHabit() {
     showDialog(
@@ -45,16 +84,6 @@ class _HomeState extends State<Home> {
         return HabitCreator(saveTap: saveHabit, controller: textController);
       },
     );
-
-    db.updateDatabase();
-  }
-
-  void saveHabit() {
-    setState(() {
-      db.todaysHabitList.add(Habit(textController.text, false));
-      textController.clear();
-      db.calculateCompleted();
-    });
 
     db.updateDatabase();
   }
@@ -76,16 +105,14 @@ class _HomeState extends State<Home> {
         toolbarHeight: kToolbarsHeight,
         centerTitle: kCenterTitle,
         titleSpacing: kTitleSpacing,
-        title: WelcomeBackMesssage(userName: null),
+        title: WelcomeBackMesssage(userName: _userName),
       ),
 
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: HabitHeatMap(
-              datasets: db.heatMapDataSet,
-            ),
+            child: HabitHeatMap(datasets: db.heatMapDataSet),
           ),
 
           Padding(

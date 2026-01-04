@@ -9,6 +9,14 @@ class HabitDatabase {
   List<Habit> todaysHabitList = [];
   Map<DateTime, int> heatMapDataSet = {};
 
+  String? getUserName() {
+    return _myBox.get("USER_NAME");
+  }
+
+  void saveUserName(String userName) {
+    _myBox.put("USER_NAME", userName);
+  }
+
   String getTodayKey() {
     return hiveKeyForDate(DateTime.now());
   }

@@ -24,11 +24,13 @@ class _HomeState extends State<Home> {
     super.initState();
 
     db.loadData();
+    db.loadHeatMap();
   }
 
   void checkboxChange(bool? value, int index) {
     setState(() {
       db.todaysHabitList[index].isChecked = value!;
+      db.calculateCompleted();
     });
 
     db.updateDatabase();
@@ -51,6 +53,7 @@ class _HomeState extends State<Home> {
     setState(() {
       db.todaysHabitList.add(Habit(textController.text, false));
       textController.clear();
+      db.calculateCompleted();
     });
 
     db.updateDatabase();
@@ -59,6 +62,7 @@ class _HomeState extends State<Home> {
   void removeHabit(int index) {
     setState(() {
       db.todaysHabitList.removeAt(index);
+      db.calculateCompleted();
     });
 
     db.updateDatabase();
@@ -79,7 +83,9 @@ class _HomeState extends State<Home> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            child: HabitHeatMap(),
+            child: HabitHeatMap(
+              datasets: db.heatMapDataSet,
+            ),
           ),
 
           Padding(

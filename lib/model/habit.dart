@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'habit.g.dart'; // ← file must be lowercase and in the same folder
+part 'habit.g.dart';
 
 @HiveType(typeId: 0)
 class Habit {

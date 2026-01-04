@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
-class HabitHeatMap extends StatefulWidget {
-  const HabitHeatMap({super.key});
+class HabitHeatMap extends StatelessWidget {
+  final Map<DateTime, int>? datasets;
 
-  @override
-  State<HabitHeatMap> createState() => _HabitHeatMapState();
-}
+  const HabitHeatMap({
+    super.key,
+    required this.datasets,
+  });
 
-class _HabitHeatMapState extends State<HabitHeatMap> {
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -18,9 +18,7 @@ class _HabitHeatMapState extends State<HabitHeatMap> {
         flexible: false,
         colorMode: ColorMode.color,
         showColorTip: true,
-        datasets: {
-          DateTime(2026, 1, 1): 20,
-        },
+        datasets: datasets,
 
         onClick: (DateTime value) {
           ScaffoldMessenger.of(context).showSnackBar(
